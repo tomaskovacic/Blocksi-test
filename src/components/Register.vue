@@ -27,6 +27,11 @@ export default {
             password: this.password
         }
         axios.post('http://localhost:5000/register', newUser)
+        .then(res =>{
+            console.log(res)
+        }, err => {
+            console.log(err.response)
+        })
     },
   },
 };
