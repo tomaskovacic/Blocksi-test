@@ -1,17 +1,34 @@
 <template>
+  <div class="triangle"></div>
+  <div class="triangle2"></div>
+  <div class="triangle3"></div>
   <div class="parent clearfix">
     <div class="login">
       <div class="container">
-        <h1>Login to access to<br />your account</h1>
-
+        <h1 class="loginh1">Login</h1>
         <div class="login-form">
           <form @submit.prevent="login">
-            <input type="text" v-model="username" placeholder="Username" required />
-            <input type="password" v-model="password" placeholder="Password" required /> 
+            <input
+              type="text"
+              v-model="username"
+              placeholder="Username"
+              required
+            />
+            <input
+              type="password"
+              v-model="password"
+              placeholder="Password"
+              required
+            />
             <p class="error">{{ error }}</p>
-            <button type="submit">Login</button> <br /> <br> <br>
-            <p>Already have an account?</p>
-            <button @click="register">Register</button>
+            <button type="submit">Login</button> <br />
+            <br />
+            <br />
+            <br />
+            <br /><br />
+            <br />
+            <p class="pThin">Or sign up using</p>
+            <button class="noBorderButton" @click="register">Sign up</button>
           </form>
         </div>
       </div>
@@ -64,40 +81,55 @@ export default {
   padding: 0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
+  -webkit-transition: 0.8s;
+  -o-transition: 0.8s;
+  transition: 0.8s;
+}
+html {
+  height: 100%;
 }
 
 body {
-  background-color: #fff;
+  background: -webkit-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
+  background: -o-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
+  background: linear-gradient(20deg, #4fece5 0%, #b012d8 100%);
   font-family: Montserrat;
-  overflow-x: hidden;
+          overflow: hidden;
 }
 
+.loginh1 {
+  text-align: center;
+  padding-top: 40px;
+  font-weight: 900;
+}
 *:focus {
   outline: none;
 }
 
 .login {
-  overflow-y: auto;
   float: center;
   margin: 0 auto;
 }
 .login .container {
-  width: 505px;
+  width: 400px;
+  height: 600px;
   margin: 0 auto;
   position: relative;
+  background-color: white;
+  box-shadow: 1px 10px;
+  border-radius: 10px;
+  box-shadow: 5px -5px 5px rgba(129, 122, 122, 0.6);
+  -moz-box-shadow: 5px -5px 5px rgba(80, 77, 77, 0.6);
+  -webkit-box-shadow: 5px -5px 5px rgba(80, 77, 77, 0.6);
+  -o-box-shadow: 5px -5px 5px rgba(80, 77, 77, 0.6);
 }
 .login .container h1 {
-  margin-top: 90px;
+  margin-top: 50px;
   font-size: 38px;
-  font-weight: bolder;
 }
 .login .container .login-form {
-    text-align: center;
-
-  margin-top: 70px;
+  text-align: center;
+  margin-top: 60px;
 }
 
 .login .container .login-form form input {
@@ -105,32 +137,31 @@ body {
   font-weight: normal;
   background: rgba(57, 57, 57, 0.07);
   margin: 12.5px 0;
-  height: 68px;
-  width: 500px;
+  height: 60px;
+  width: 85%;
   border: none;
   padding: 0 30px;
   border-radius: 10px;
 }
-.login .container .login-form form button {
-  background: -webkit-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-  background: -o-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-  background: linear-gradient(-20deg, #f794a4 0%, #fdd6bd 100%);
+.login .container .login-form form button[type="submit"] {
+  background: -webkit-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
+  background: -o-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
+  background: linear-gradient(20deg, #4fece5 0%, #b012d8 100%);
   border: none;
   margin-top: 10px;
   margin-bottom: 5px;
-  width: 241px;
-  height: 58px;
+  width: 85%;
+  height: 50px;
   text-transform: uppercase;
   color: white;
-  border-radius: 10px;
+  border-radius: 50px;
   font-weight: bold;
   font-size: 20px;
 }
 
-.login .container .login-form form button:hover {
-  background: -webkit-linear-gradient(110deg, #8062d3 0%, #2235db 100%);
-  background: -o-linear-gradient(110deg, #8062d3 0%, #2235db 100%);
-  background: linear-gradient(-20deg, #8062d3 0%, #2235db 100%);
+.login .container .login-form form button:hover[type="submit"] {
+  opacity: 0.7;
+  color: black;
   cursor: pointer;
 }
 .error {
@@ -138,4 +169,69 @@ body {
   font-weight: 550;
 }
 
+.noBorderButton {
+  padding: 0;
+  border: none;
+  background: none;
+  margin-top: 15px;
+}
+.pThin {
+  font-weight: lighter;
+}
+button {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.triangle {
+  overflow: hidden;
+  position: absolute;
+  bottom: 300px;
+  right: 1300px;
+  float: right;
+  width: 0;
+  height: 600px;
+  border-width: 218.5px 442px 218.5px 0;
+  border-color: transparent #fafafa transparent transparent;
+  border-style: solid;
+  filter: drop-shadow(4px 0px 3px rgba(163, 163, 163, 0.66));
+  transform: rotate(72deg);
+  border-radius: 10px;
+  opacity: 0.1;
+}
+
+
+.triangle2 {
+    position: absolute;
+  overflow: hidden;
+  bottom: 300px;
+  left: 1200px;
+  width: 0;
+  height: 600px;
+  border-width: 218.5px 442px 218.5px 0;
+  border-color: transparent #fafafa transparent transparent;
+  border-style: solid;
+  filter: drop-shadow(4px 0px 3px rgba(163, 163, 163, 0.66));
+  transform: rotate(72deg);
+  border-radius: 10px;
+  opacity: 0.1;
+}
+
+
+.triangle3 {
+  overflow: hidden;
+  position: absolute;
+  bottom: -300px;
+  right: 650px;
+  float: right;
+  width: 0;
+  height: 600px;
+  border-width: 218.5px 442px 218.5px 0;
+  border-color: transparent #fafafa transparent transparent;
+  border-style: solid;
+  filter: drop-shadow(4px 0px 3px rgba(163, 163, 163, 0.66));
+  transform: rotate(290deg);
+  border-radius: 10px;
+  opacity: 0.1;
+}
 </style>
