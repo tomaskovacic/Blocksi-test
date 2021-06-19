@@ -6,6 +6,7 @@ const User = require('./models/User');
 const Contact = require('./models/Contact');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { db } = require('./models/User');
 
 mongoose.connect('mongodb+srv://tomas123:tomas123@test.znk5h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -97,27 +98,63 @@ app.post('/contacts', (req, res, next) => {
         })
         User.findOne({ _id: decoded.userId }, (err, user) => {
             if (err) return console.log(err)
-            
-        //token is valid
-        const newContact = new Contact({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            number: req.body.number,
-            userId: user._id,
-        })
-        newContact.save(err => {
-            if (err) {
-                return res.status(400).json({
-                    title: 'This phone number already exist!',
+
+            //token is valid
+            const newContact = new Contact({
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                number: req.body.number,
+                userId: user._id,
+            })
+            newContact.save(err => {
+                if (err) {
+                    return res.status(400).json({
+                        title: 'This phone number already exist!',
+                    })
+                }
+                return res.status(200).json({
+                    title: 'Contact added to the DB!'
                 })
-            }
-            return res.status(200).json({
-                title: 'Contact added to the DB!'
             })
         })
     })
+})
+
+// Getting all contacts
+app.get('/contacts', (req, res, next) => {
+    let token = req.headers.token //token
+    jwt.verify(token, 'secretkey123', (err, decoded) => {
+        if (err) return res.status(401).json({
+            title: err
+        })
+        //token is valid
+        User.findOne({ _id: decoded.userId }, (err, user) => {
+            if (err) return console.log(err)
+
+            var MongoClient = require('mongodb').MongoClient;
+
+            MongoClient.connect('mongodb+srv://tomas123:tomas123@test.znk5h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
+                if (err) throw err;
+                var dbo = db.db("myFirstDatabase");
+                dbo.collection("contacts").find({ userId: user._id.toString() }).toArray(function (err, result) {
+                    if (err) throw err;
+                    //console.log(result);
+                    return res.status(200).json({
+                        title: 'user grabbed',
+                        user: {
+                            data: result,
+                        }
+                    })
+                    db.close();
+                });
+            });
+
+
+
+        })
     })
 })
+
 
 const port = process.env.PORT || 5000;
 

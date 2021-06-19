@@ -4,6 +4,7 @@ import * as VueRouter from 'vue-router';
 import Contacts from './components/Contacts'
 import Register from './components/Register'
 import Login from './components/Login'
+import axios from "axios";
 
 
 
@@ -25,6 +26,10 @@ const routes = [
     }
 
 ]
+
+
+axios.defaults.baseURL = "http://localhost:5000"
+
 
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHistory(),

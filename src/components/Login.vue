@@ -28,7 +28,7 @@ export default {
         username: this.username,
         password: this.password,
       };
-      axios.post("http://localhost:5000/login", user).then(
+      axios.post("/login", user).then(
         (res) => {
           if (res.status === 200) {
             localStorage.setItem("token", res.data.token);

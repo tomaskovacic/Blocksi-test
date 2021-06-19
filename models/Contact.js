@@ -7,7 +7,6 @@ const contactSchema = new Schema({
     }, lastname: {
         type: String
     },number: {
-        unique: true,
         type: String
     },
     userId: {

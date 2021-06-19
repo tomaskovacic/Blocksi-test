@@ -39,7 +39,7 @@ export default {
         email: this.email,
         password: this.password,
       };
-      axios.post("http://localhost:5000/register", newUser).then(
+      axios.post("/register", newUser).then(
         (res) => {
           console.log(res);
           this.error = "";
