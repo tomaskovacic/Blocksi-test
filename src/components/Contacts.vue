@@ -17,13 +17,14 @@
     {{ error }}
     <br />
 
-    <table>
+    <table class="table">
       <tr>
         <th>First name</th>
         <th>Last name</th>
         <th>Phone number</th>
       </tr>
       <tr
+        class="tableTr"
         v-for="contact in contacts"
         :key="contact._id"
         @click="clickList(contact), togglePopup()"
@@ -254,5 +255,10 @@ tr:nth-child(even) {
 .popup.active .content {
   transition: all 300ms ease-in-out;
   transform: translate(-50%, -50%) scale(1);
+}
+
+.table .tableTr:hover{
+    opacity: 0.4;
+    cursor: pointer;
 }
 </style>
