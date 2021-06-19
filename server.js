@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const Contact = require('./models/Contact');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -39,7 +40,7 @@ app.post('/register', (req, res, next) => {
     })
 })
 app.post('/login', (req, res, next) => {
-    User.findOne({username : req.body.username }, (err, user) => {
+    User.findOne({ username: req.body.username }, (err, user) => {
         if (err) return res.status(500).json({
             title: 'Server error',
             error: err
@@ -51,14 +52,14 @@ app.post('/login', (req, res, next) => {
             })
         }
         //Incorrect password
-        if(!bcrypt.compareSync(req.body.password, user.password)){
+        if (!bcrypt.compareSync(req.body.password, user.password)) {
             return res.status(401).json({
                 title: 'login failed',
                 error: 'Invalid credentials'
             })
         }
         //If all is good create a token
-        let token = jwt.sign({userId: user._id}, 'secretkey123');
+        let token = jwt.sign({ userId: user._id }, 'secretkey123');
         return res.status(200).json({
             title: 'login success',
             token: token
@@ -69,12 +70,12 @@ app.post('/login', (req, res, next) => {
 //Grabbing user info
 app.get('/user', (req, res, next) => {
     let token = req.headers.token //token
-    jwt.verify(token, 'secretkey123', (err, decoded)=>{
-        if(err) return res.status(401).json({
+    jwt.verify(token, 'secretkey123', (err, decoded) => {
+        if (err) return res.status(401).json({
             title: 'unauthorized'
         })
         //token is valid
-        User.findOne({ _id: decoded.userId}, (err, user) =>{
+        User.findOne({ _id: decoded.userId }, (err, user) => {
             if (err) return console.log(err)
             return res.status(200).json({
                 title: 'user grabbed',
@@ -84,6 +85,37 @@ app.get('/user', (req, res, next) => {
                 }
             })
         })
+    })
+})
+
+// Adding new contact
+app.post('/contacts', (req, res, next) => {
+    let token = req.headers.token //token
+    jwt.verify(token, 'secretkey123', (err, decoded) => {
+        if (err) return res.status(401).json({
+            title: err
+        })
+        User.findOne({ _id: decoded.userId }, (err, user) => {
+            if (err) return console.log(err)
+            
+        //token is valid
+        const newContact = new Contact({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            number: req.body.number,
+            userId: user._id,
+        })
+        newContact.save(err => {
+            if (err) {
+                return res.status(400).json({
+                    title: 'This phone number already exist!',
+                })
+            }
+            return res.status(200).json({
+                title: 'Contact added to the DB!'
+            })
+        })
+    })
     })
 })
 
