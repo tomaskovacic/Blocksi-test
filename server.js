@@ -155,6 +155,29 @@ app.get('/contacts', (req, res, next) => {
     })
 })
 
+// Deletes a specific contact
+app.get('/contacts/:id', (req, res, next) => {
+    let token = req.headers.token //token
+    jwt.verify(token, 'secretkey123', (err, decoded) => {
+        if (err) return res.status(401).json({
+            title: 'unauthorized'
+        })
+        //token is valid
+        console.log(req.params.id);
+        Contact.findById(req.params.id)
+        .then(result =>{
+            return res.status(200).json({
+                contact: result
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+    })
+})
 
 const port = process.env.PORT || 5000;
 
