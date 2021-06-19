@@ -42,7 +42,7 @@
       <h1>{{ specificContact.firstname + " " + specificContact.lastname }}</h1>
       <p>Phone number: {{ specificContact.number }}</p>
       <button>Edit</button>
-      <button @click="deleteContact">Delete</button>
+      <button @click="deleteContact()">Delete</button>
     </div>
   </div>
 </template>
@@ -62,6 +62,7 @@ export default {
       error: "",
       contacts: [],
       specificContact: [],
+      temp: "",
     };
   },
   created() {
@@ -87,8 +88,14 @@ export default {
   methods: {
     deleteContact() {
       document.getElementById("popup-1").classList.toggle("active");
+      axios
+        .delete("/contacts/" + this.temp._id, {
+          headers: { token: localStorage.getItem("token") },
+        });
+        this.updateList()
     },
-    clickList: function (contact) {
+    clickList (contact) {
+        this.temp = contact
       //console.log("clickList fired with " + contact._id);
       axios
         .get("/contacts/" + contact._id, {
