@@ -155,7 +155,7 @@ app.get('/contacts', (req, res, next) => {
     })
 })
 
-// Deletes a specific contact
+// Get specific id
 app.get('/contacts/:id', (req, res, next) => {
     let token = req.headers.token //token
     jwt.verify(token, 'secretkey123', (err, decoded) => {
@@ -178,6 +178,7 @@ app.get('/contacts/:id', (req, res, next) => {
     })
 })
 
+// Contact delete
 app.delete('/contacts/:id', (req, res, next) => {
     let token = req.headers.token //token
     jwt.verify(token, 'secretkey123', (err, decoded) => {
@@ -188,6 +189,31 @@ app.delete('/contacts/:id', (req, res, next) => {
         Contact.findByIdAndRemove({_id: req.params.id})
         .then(result =>{
             return res.status(200).json({
+                contact: result
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+    })
+})
+
+// Contact update
+app.put('/contacts/:id', (req, res, next) => {
+    let token = req.headers.token //token
+    jwt.verify(token, 'secretkey123', (err, decoded) => {
+        if (err) return res.status(401).json({
+            title: 'unauthorized'
+        })
+        //token is valid
+        console.log(req.body.firstname)
+        Contact.findByIdAndUpdate({_id: req.params.id}, req.body)
+        .then(result =>{
+            return res.status(200).json({
+                title: 'Contact successfully updated!',
                 contact: result
             })
         })

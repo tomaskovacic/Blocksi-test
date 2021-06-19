@@ -39,9 +39,33 @@
     <div class="overlay"></div>
     <div class="content">
       <div class="close-btn" @click="togglePopup()">×</div>
-      <h1>{{ specificContact.firstname + " " + specificContact.lastname }}</h1>
-      <p>Phone number: {{ specificContact.number }}</p>
-      <button>Edit</button>
+      First name:
+      <input
+        ref="firstname"
+        type="text"
+        v-model="specificContact.firstname"
+        required
+      />
+      <br />
+      Last name:
+      <input
+        ref="lastname"
+        type="text"
+        v-model="specificContact.lastname"
+        required
+      />
+      <br />
+      Phone number:
+      <input
+        ref="number"
+        type="text"
+        v-model="specificContact.number"
+        required
+      />
+      <br />
+      <button @click="updateContact()">Update</button><br />
+      <p>{{ msg }}</p>
+      <br />
       <button @click="deleteContact()">Delete</button>
     </div>
   </div>
@@ -63,6 +87,8 @@ export default {
       contacts: [],
       specificContact: [],
       temp: "",
+      updatedContact: [],
+      msg:"",
     };
   },
   created() {
@@ -86,16 +112,29 @@ export default {
         });
   },
   methods: {
+    updateContact() {
+        let updateContact = {
+        firstname: this.specificContact.firstname,
+        lastname: this.specificContact.lastname,
+        number: this.specificContact.number,
+      };
+      axios.put("/contacts/" + this.temp._id, updateContact, { headers: { token: localStorage.getItem("token") },
+        })
+        .then((result) => {
+          this.updatedContact = result.data.contact;
+          this.msg = result.data.title
+        });
+
+      this.updateList();
+    },
     deleteContact() {
       document.getElementById("popup-1").classList.toggle("active");
-      axios
-        .delete("/contacts/" + this.temp._id, {
-          headers: { token: localStorage.getItem("token") },
-        });
-        this.updateList()
+      axios.delete("/contacts/" + this.temp._id, { headers: { token: localStorage.getItem("token") },
+      });
+      this.updateList();
     },
-    clickList (contact) {
-        this.temp = contact
+    clickList(contact) {
+      this.temp = contact;
       //console.log("clickList fired with " + contact._id);
       axios
         .get("/contacts/" + contact._id, {
@@ -108,6 +147,7 @@ export default {
     },
     togglePopup() {
       document.getElementById("popup-1").classList.toggle("active");
+      this.msg = ''
     },
     logout() {
       localStorage.clear();
