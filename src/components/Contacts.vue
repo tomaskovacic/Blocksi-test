@@ -1,24 +1,45 @@
 <template>
   <div class="backgroundDiv">
-    Home
-    <button @click="logout">Logout</button>
-    <h1>Hello {{ name }}</h1>
+    <div class="nav">
+      <img src="../assets/icon.svg" class="icon" />
+      <h3 class="mainTitle">Contacts</h3>
+      <button @click="logout" class="logout noBorderButton">Logout</button>
+      <h4 class="logouth4">Hello {{ name }},</h4>
+    </div>
+    <div class="div2">
+      <form @submit.prevent="addContact">
+        <input
+          ref="firstname"
+          type="text"
+          v-model="firstname"
+          placeholder="First name"
+          required
+        />
+        <br />
+        <input
+          ref="lastname"
+          type="text"
+          v-model="lastname"
+          placeholder="Last name"
+          required
+        />
+        <br />
+        <input
+          ref="number"
+          type="text"
+          v-model="number"
+          placeholder="Phone number"
+          required
+        />
+        <br />
+        <button type="submit" @click="updateList" class="addButton">Add</button>
+        <br />
+      </form>
+      {{ error }}
+    </div>
 
-    <br />
-    <form @submit.prevent="addContact">
-      First name:
-      <input ref="firstname" type="text" v-model="firstname" required /> <br />
-      Last name:
-      <input ref="lastname" type="text" v-model="lastname" required /> <br />
-      Phone number:
-      <input ref="number" type="text" v-model="number" required /> <br />
-      <button type="submit" @click="updateList">Add</button> <br />
-    </form>
-    {{ error }}
-    <br />
-
-    <table class="table">
-      <tr>
+    <table class="table" cellspacing="0" cellpadding="0">
+      <tr class="tableNav">
         <th>First name</th>
         <th>Last name</th>
         <th>Phone number</th>
@@ -40,34 +61,34 @@
     <div class="overlay"></div>
     <div class="content">
       <div class="close-btn" @click="togglePopup()">×</div>
-      First name:
       <input
         ref="firstname"
         type="text"
+        class="input2"
         v-model="specificContact.firstname"
         required
       />
       <br />
-      Last name:
       <input
         ref="lastname"
         type="text"
+        class="input2"
         v-model="specificContact.lastname"
         required
       />
       <br />
-      Phone number:
       <input
         ref="number"
         type="text"
+        class="input2"
         v-model="specificContact.number"
         required
       />
       <br />
-      <button @click="updateContact()">Update</button><br />
+      <button class="button2" @click="updateContact()">Update</button><br />
       <p>{{ msg }}</p>
       <br />
-      <button @click="deleteContact()">Delete</button>
+      <button class="button3" @click="deleteContact()">Delete</button>
     </div>
   </div>
 </template>
@@ -89,7 +110,7 @@ export default {
       specificContact: [],
       temp: "",
       updatedContact: [],
-      msg:"",
+      msg: "",
     };
   },
   created() {
@@ -114,23 +135,26 @@ export default {
   },
   methods: {
     updateContact() {
-        let updateContact = {
+      let updateContact = {
         firstname: this.specificContact.firstname,
         lastname: this.specificContact.lastname,
         number: this.specificContact.number,
       };
-      axios.put("/contacts/" + this.temp._id, updateContact, { headers: { token: localStorage.getItem("token") },
+      axios
+        .put("/contacts/" + this.temp._id, updateContact, {
+          headers: { token: localStorage.getItem("token") },
         })
         .then((result) => {
           this.updatedContact = result.data.contact;
-          this.msg = result.data.title
+          this.msg = result.data.title;
         });
 
       this.updateList();
     },
     deleteContact() {
       document.getElementById("popup-1").classList.toggle("active");
-      axios.delete("/contacts/" + this.temp._id, { headers: { token: localStorage.getItem("token") },
+      axios.delete("/contacts/" + this.temp._id, {
+        headers: { token: localStorage.getItem("token") },
       });
       this.updateList();
     },
@@ -148,7 +172,7 @@ export default {
     },
     togglePopup() {
       document.getElementById("popup-1").classList.toggle("active");
-      this.msg = ''
+      this.msg = "";
     },
     logout() {
       localStorage.clear();
@@ -188,29 +212,27 @@ export default {
 </script>
 
 <style scoped>
-
 .backgroundDiv {
-    background-color: white;
-        height: 100vh;
-
+  background-color: white;
+  height: 100vh;
 }
 
 html {
-    height: 100%;
+  height: 100%;
 }
-
+html,
 
 table {
-  font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  font-family: Montserrat;
+  font-size: 18px;
 }
 
 td,
 th {
-  border: 1px solid #dddddd;
   text-align: left;
-  padding: 15px;
+  padding: 20px;
 }
 
 tr:nth-child(even) {
@@ -236,7 +258,7 @@ tr:nth-child(even) {
   background: #fff;
   width: 95%;
   max-width: 500px;
-  height: 250px;
+  height: 280px;
   z-index: 2;
   text-align: center;
   padding: 20px;
@@ -269,8 +291,137 @@ tr:nth-child(even) {
   transform: translate(-50%, -50%) scale(1);
 }
 
-.table .tableTr:hover{
-    opacity: 0.4;
-    cursor: pointer;
+.table .tableTr:hover {
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.icon {
+  height: 30px;
+  width: 30px;
+  float: left;
+  margin: 5px;
+  margin-left: 20px;
+  margin-top: 13px;
+}
+.logout {
+  float: right;
+  margin: 10px;
+  margin-top: -26px;
+  color: white;
+  font-size: 15px;
+}
+.logouth4 {
+  float: right;
+  margin: 10px;
+  margin-top: -27px;
+  color: white;
+  font-size: 15px;
+  font-weight: lighter;
+}
+
+.nav {
+  background-color: rgb(145, 124, 240);
+  height: 60px;
+}
+.mainTitle {
+  font-size: 20px;
+  margin: 0;
+  padding: 10px;
+  margin-left: 47px;
+  color: white;
+  padding-top: 15px;
+}
+.noBorderButton {
+  border: none;
+  background: none;
+}
+.noBorderButton:hover {
+  color: black;
+}
+
+.div2 {
+  background-color: rgb(213, 124, 240);
+  text-align: center;
+  padding: 20px;
+}
+
+.addButton {
+  background: -webkit-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
+  background: -o-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
+  background: linear-gradient(20deg, #4fece5 0%, #b012d8 100%);
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  width: 20%;
+  height: 30px;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.addButton:hover[type="submit"] {
+  opacity: 0.7;
+  color: black;
+  cursor: pointer;
+}
+
+form input {
+  font-size: 16px;
+  font-weight: normal;
+  background: rgba(218, 215, 235, 0.842);
+  height: 35px;
+  width: 20%;
+  border: none;
+  padding: 0 30px;
+  border-radius: 10px;
+  margin: 5px;
+}
+.input2 {
+  font-size: 16px;
+  font-weight: normal;
+  background: rgba(218, 215, 235, 0.842);
+  height: 35px;
+  width: 50%;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  text-align: center;
+  }
+
+.tableNav {
+  background-color: rgb(47, 47, 99);
+  border: none;
+  color: white;
+  font-family: Montserrat;
+}
+
+.button3 {
+  background-color: rgb(221, 44, 103);
+  border: none;
+  margin-bottom: 5px;
+  width: 30%;
+  height: 30px;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.button2 {
+  background-color: rgb(68, 157, 230);
+  border: none;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  width: 30%;
+  height: 30px;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 20px;
 }
 </style>

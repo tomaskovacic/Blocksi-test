@@ -11,13 +11,13 @@
             <input
               type="text"
               v-model="firstname"
-              placeholder="firstname"
+              placeholder="First name"
               required
             />
             <input
               type="text"
               v-model="lastname"
-              placeholder="lastname"
+              placeholder="Last name"
               required
             />
             <input
@@ -26,6 +26,7 @@
               placeholder="Username"
               required
             />
+            <input type="email" v-model="email" placeholder="E-mail" required />
             <input
               type="password"
               minlength="8"
@@ -35,9 +36,11 @@
             />
             <p class="error">{{ error }}</p>
             <button type="submit">Sign up</button> <br />
-            <br/><br/>
+            <br /><br />
             <p class="pThin">Have already an account?</p>
-            <button type="button" @click="login" class="noBorderButton">Login</button>
+            <button type="button" @click="login" class="noBorderButton">
+              Login
+            </button>
           </form>
         </div>
       </div>
@@ -70,14 +73,16 @@ export default {
         password: this.password,
       };
       axios.post("/register", newUser).then(
-        (res) => {
-          console.log(res);
+        () => {
           this.error = "";
           this.$router.push("/login");
         },
         (err) => {
-          //console.log(err.response);
-          this.error = err.response.data.error;
+          if (err.response.data.error.keyPattern.email === 1) {
+            this.error = "E-mail already in use!";
+          } else {
+            this.error = "Username already in use!";
+          }
         }
       );
     },
@@ -91,7 +96,7 @@ export default {
 <style scoped>
 .login .container .login-form {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .loginh1 {
@@ -148,5 +153,17 @@ export default {
   transform: rotate(140deg);
   border-radius: 10px;
   opacity: 0.1;
+}
+
+.login .container .login-form form input {
+  font-size: 16px;
+  font-weight: normal;
+  background: rgba(57, 57, 57, 0.07);
+  margin: 12.5px 0;
+  height: 45px;
+  width: 85%;
+  border: none;
+  padding: 0 30px;
+  border-radius: 10px;
 }
 </style>

@@ -95,7 +95,7 @@ body {
   background: -o-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
   background: linear-gradient(20deg, #4fece5 0%, #b012d8 100%);
   font-family: Montserrat;
-  overflow: hidden;
+    overflow: hidden;
 }
 
 .loginh1 {
@@ -234,4 +234,5 @@ button {
   opacity: 0.1;
 }
 </style>
+
 

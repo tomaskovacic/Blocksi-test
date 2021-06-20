@@ -32,7 +32,7 @@ app.post('/register', (req, res, next) => {
         if (err) {
             return res.status(400).json({
                 title: 'error',
-                error: 'Username already in use.'
+                error: err
             })
         }
         return res.status(200).json({
