@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="backgroundDiv">
     Home
     <button @click="logout">Logout</button>
     <h1>Hello {{ name }}</h1>
@@ -187,7 +187,19 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+.backgroundDiv {
+    background-color: white;
+        height: 100vh;
+
+}
+
+html {
+    height: 100%;
+}
+
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;

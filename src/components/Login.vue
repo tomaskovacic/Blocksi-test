@@ -28,7 +28,7 @@
             <br /><br />
             <br />
             <p class="pThin">Or sign up using</p>
-            <button class="noBorderButton" @click="register">Sign up</button>
+            <button type="button" class="noBorderButton" @click="register">Sign up</button>
           </form>
         </div>
       </div>
@@ -75,7 +75,8 @@ export default {
 };
 </script>
 
-<style>
+
+<style >
 * {
   margin: 0;
   padding: 0;
@@ -94,7 +95,7 @@ body {
   background: -o-linear-gradient(110deg, #4fece5 0%, #b012d8 100%);
   background: linear-gradient(20deg, #4fece5 0%, #b012d8 100%);
   font-family: Montserrat;
-          overflow: hidden;
+  overflow: hidden;
 }
 
 .loginh1 {
@@ -200,9 +201,8 @@ button {
   opacity: 0.1;
 }
 
-
 .triangle2 {
-    position: absolute;
+  position: absolute;
   overflow: hidden;
   bottom: 300px;
   left: 1200px;
@@ -216,7 +216,6 @@ button {
   border-radius: 10px;
   opacity: 0.1;
 }
-
 
 .triangle3 {
   overflow: hidden;
@@ -235,3 +234,4 @@ button {
   opacity: 0.1;
 }
 </style>
+
