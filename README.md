@@ -1,24 +1,29 @@
-# test
+# test project
 
 ## Project setup
+```
+git clone https://github.com/tomaskovacic/Blocksi-test.git
+```
+```
+cd Blocksi-test
+```
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Configure server.js file to have your own MongoDB database link in it (line 11 & line 135)
+
+### Start both 2 servers
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
 ```
-npm run build
+npm run server
 ```
 
-### Lints and fixes files
+### Go to the browser:
+
 ```
-npm run lint
+http://localhost:8080/
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
